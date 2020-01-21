@@ -1,8 +1,9 @@
 # mongorestore-s3
 
-[![dockeri.co](http://dockeri.co/image/lgatica/mongorestore-s3)](https://hub.docker.com/r/lgatica/mongorestore-s3/)
+[![dockeri.co](http://dockeri.co/image/snic/mongorestore-s3)](https://hub.docker.com/r/snic/mongorestore-s3/)
 
-[![Build Status](https://travis-ci.org/lgaticaq/mongorestore-s3.svg?branch=master)](https://travis-ci.org/lgaticaq/mongorestore-s3)
+> **IMPORTANT:**
+> This is a copy of [Drivetech/mongorestore-s3](https://github.com/Drivetech/mongorestore-s3). I just added the function for restore latest backup and a config file for Kubernetes CronJobs.
 
 > Docker Image with Alpine Linux, mongorestore and awscli for restore mongo backup from s3
 
@@ -51,6 +52,11 @@ docker run -d --name mongorestore \
   -e EXTRA="--noIndexRestore"
   lgatica/mongorestore-s3
 ```
+
+## Use Kubernetes
+1. Customize the file kub "kub_cronjob.yaml" for his needs.
+2. Run `kubectl apply -f ./kub_cronjob.yaml` in the repository directory.
+3. done 🙂
 
 ## IAM Policity
 

@@ -1,0 +1,35 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: restore-mongodb
+  namespace: clubtool
+spec:
+  concurrencyPolicy: Allow
+  failedJobsHistoryLimit: 1
+  schedule: "* 6 * * *" # At every minute past hour 6.
+  successfulJobsHistoryLimit: 3
+  suspend: false
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: restore-mongodb
+              image: snic/mongorestore-s3:v1.0.0
+              env:
+              - name: BACKUP_NAMES
+                value: "latest"
+              - name: MONGO_URI
+                value: "mongodb://user:pass@host:port/dbname"
+              - name: AWS_ACCESS_KEY_ID
+                value: "your_aws_access_key"
+              - name: AWS_SECRET_ACCESS_KEY
+                value: "your_aws_secret_access_key"
+              - name: AWS_DEFAULT_REGION
+                value: "eu-central-1"
+              - name: S3_BUCKET
+                value: "your_aws_bucket"
+          restartPolicy: OnFailure
+          schedulerName: default-scheduler
+          securityContext: {}
+          terminationGracePeriodSeconds: 30
