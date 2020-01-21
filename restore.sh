@@ -8,11 +8,11 @@ for BACKUP_NAME in $BACKUP_NAMES
 do
   # Get latest backup
   if [ "$BACKUP_NAME" == "latest" ]; then
-    BACKUP_NAME=$(aws s3 ls "s3://${S3_BUCKET}/${S3_PATH}/" | tail -1 | awk '{print $NF}')
+    BACKUP_NAME=$(aws s3 ls "s3://${S3_BUCKET}/" | tail -1 | awk '{print $NF}')
   fi
 
   # Download backup
-  aws s3 cp "s3://${S3_BUCKET}/${S3_PATH}/${BACKUP_NAME}" "/backup/${BACKUP_NAME}"
+  aws s3 cp "s3://${S3_BUCKET}/${BACKUP_NAME}" "/backup/${BACKUP_NAME}"
   # Decompress backup with progress
   cd /backup/ && pv $BACKUP_NAME | tar xzf - -C .
 
