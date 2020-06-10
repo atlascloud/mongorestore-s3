@@ -20,12 +20,12 @@ do
   if [ -n "${COLLECTIONS}" ]; then
     for collection in $COLLECTIONS
     do
-      cmd="mongorestore -v ${OPTIONS} -c ${collection} /backup/dump/${DB_NAME:+$BACKUP_PATH}/${collection}.bson"
+      cmd="mongorestore -v ${OPTIONS} -c ${collection} /backup/${DB_NAME:+$BACKUP_PATH}/${collection}.bson"
       echo $cmd
       eval $cmd
     done
   else
-    cmd="mongorestore -v ${OPTIONS} /backup/dump/${DB_NAME:+$BACKUP_PATH}"
+    cmd="mongorestore -v ${OPTIONS} /backup/${DB_NAME:+$BACKUP_PATH}"
     echo $cmd
     eval $cmd
   fi
