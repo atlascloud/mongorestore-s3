@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -x
 
 OPTIONS=`python3 /usr/local/bin/mongouri`
 DB_NAME=`python3 /usr/local/bin/mongouri database`
@@ -12,7 +12,7 @@ do
   fi
 
   # Download backup
-  aws s3 cp "s3://${S3_BUCKET}/${S3_PATH}/${backup_name}" "/backup/${backup_name}"
+  aws s3 cp "s3://${S3_BUCKET}/${S3_PATH%%/}/${backup_name}" "/backup/${backup_name}"
   # Decompress backup with progress
   cd /backup/ && tar -xzf $backup_name
 
