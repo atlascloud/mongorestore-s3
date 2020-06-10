@@ -1,31 +1,31 @@
 #!/bin/sh
 
-OPTIONS=`python /usr/local/bin/mongouri`
-DB_NAME=`python /usr/local/bin/mongouri database`
+OPTIONS=`python3 /usr/local/bin/mongouri`
+DB_NAME=`python3 /usr/local/bin/mongouri database`
 
 IFS=","
-for BACKUP_NAME in $BACKUP_NAMES
+for backup_name in ${BACKUP_NAMES}
 do
   # Get latest backup
-  if [ "$BACKUP_NAME" == "latest" ]; then
-    BACKUP_NAME=$(aws s3 ls "s3://${S3_BUCKET}/" | tail -1 | awk '{print $NF}')
+  if [ "$backup_name" = "latest" ]; then
+    backup_name=$(aws s3 ls "s3://${S3_BUCKET}/${S3_PATH}" | tail -1 | awk '{print $NF}')
   fi
 
   # Download backup
-  aws s3 cp "s3://${S3_BUCKET}/${BACKUP_NAME}" "/backup/${BACKUP_NAME}"
+  aws s3 cp "s3://${S3_BUCKET}/${S3_PATH}/${backup_name}" "/backup/${backup_name}"
   # Decompress backup with progress
-  cd /backup/ && pv $BACKUP_NAME | tar xzf - -C .
+  cd /backup/ && tar -xzf $backup_name
 
   # Run backup
   if [ -n "${COLLECTIONS}" ]; then
-    for COLLECTION in $COLLECTIONS
+    for collection in $COLLECTIONS
     do
-      cmd="mongorestore -v ${OPTIONS} -c ${COLLECTION} /backup/dump/${DB_NAME}/${COLLECTION}.bson"
+      cmd="mongorestore -v ${OPTIONS} -c ${collection} /backup/dump/${DB_NAME:+$BACKUP_PATH}/${collection}.bson"
       echo $cmd
       eval $cmd
     done
   else
-    cmd="mongorestore -v ${OPTIONS} /backup/dump/${DB_NAME}"
+    cmd="mongorestore -v ${OPTIONS} /backup/dump/${DB_NAME:+$BACKUP_PATH}"
     echo $cmd
     eval $cmd
   fi
@@ -33,4 +33,3 @@ do
   # Delete backup files
   rm -rf /backup/*
 done
-

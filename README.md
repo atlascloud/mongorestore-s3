@@ -1,9 +1,10 @@
 # mongorestore-s3
 
-[![dockeri.co](http://dockeri.co/image/snic/mongorestore-s3)](https://hub.docker.com/r/snic/mongorestore-s3/)
+[![dockeri.co](http://dockeri.co/image/atlascloud/mongorestore-s3)](https://hub.docker.com/r/atlascloud/mongorestore-s3/)
 
 > **IMPORTANT:**
-> This is a copy of [Drivetech/mongorestore-s3](https://github.com/Drivetech/mongorestore-s3). I just added the function for restore latest backup and a config file for Kubernetes CronJobs.
+> This is a fork of [snic/mongorestore-s3](https://github.com/snic/mongorestore-s3) which is a fork of
+> [Drivetech/mongorestore-s3](https://github.com/Drivetech/mongorestore-s3)
 
 > Docker Image with Alpine Linux, mongorestore and awscli for restore mongo backup from s3
 
@@ -20,7 +21,7 @@ docker run -d --name mongorestore \
   -e "AWS_SECRET_ACCESS_KEY=your_aws_secret_access_key"
   -e "AWS_DEFAULT_REGION=us-west-1"
   -e "S3_BUCKET=your_aws_bucket"
-  lgatica/mongorestore-s3
+  atlascloud/mongorestore-s3
 ```
 
 Restore only collections collection1 and collection2 from backup 2016-09-20_06-00-00_UTC.gz in s3
@@ -35,7 +36,7 @@ docker run -d --name mongorestore \
   -e "AWS_DEFAULT_REGION=us-west-1"
   -e "S3_BUCKET=your_aws_bucket"
   -e "COLLECTIONS=collection1,collection2"
-  lgatica/mongorestore-s3
+  atlascloud/mongorestore-s3
 ```
 
 Restore complete database from backup 2016-09-20_06-00-00_UTC.gz in s3 with "--noIndexRestore"
@@ -50,7 +51,7 @@ docker run -d --name mongorestore \
   -e "AWS_DEFAULT_REGION=us-west-1"
   -e "S3_BUCKET=your_aws_bucket"
   -e EXTRA="--noIndexRestore"
-  lgatica/mongorestore-s3
+  atlascloud/mongorestore-s3
 ```
 
 ## Use Kubernetes
@@ -94,8 +95,9 @@ You need to add a user with the following policies. Be sure to change `your_buck
 
 ## Extra environmnet
 
-- `EXTRA` - Default not set. Set extra parameters
-
+- `S3_PATH` - Default value is `mongodb`. Example `s3://your_bucket/mongodb/`
+- `EXTRA` - Default not set. Set extra parameters that are passed to mongorestore
+- `BACKUP_PATH` - Local path inside `/backup` where the backups are located. Useful for tar files with some directory structure
 
 ## License
 

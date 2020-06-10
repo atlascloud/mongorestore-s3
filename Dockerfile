@@ -1,11 +1,11 @@
-FROM alpine:3.7@sha256:92251458088c638061cda8fd8b403b76d661a4dc6b7ee71b6affcf1872557b2b
+FROM alpine:3.12
 
-LABEL maintainer "Leonardo Gatica <lgatica@protonmail.com>"
+LABEL maintainer "Atlas Cloud Devs <atlas@kws1.com>"
 
 ENV S3_PATH=mongodb AWS_DEFAULT_REGION=us-east-1
 
-RUN apk add --no-cache mongodb-tools py2-pip pv && \
-  pip install --no-cache-dir pymongo awscli && \
+RUN apk add --no-cache mongodb-tools py3-pip && \
+  pip3 install --no-cache-dir pymongo awscli && \
   mkdir /backup
 
 COPY entrypoint.sh /usr/local/bin/entrypoint
