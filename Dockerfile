@@ -4,8 +4,8 @@ LABEL maintainer "Atlas Cloud Devs <atlas@kws1.com>"
 
 ENV S3_PATH=mongodb AWS_DEFAULT_REGION=us-east-1
 
-RUN apk add --no-cache mongodb-tools py3-pip pv && \
-  pip install --no-cache-dir pymongo awscli && \
+RUN apk add --no-cache mongodb-tools py3-pip && \
+  pip3 install --no-cache-dir pymongo awscli && \
   mkdir /backup
 
 COPY entrypoint.sh /usr/local/bin/entrypoint
