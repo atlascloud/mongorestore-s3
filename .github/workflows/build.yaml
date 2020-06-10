@@ -1,8 +1,7 @@
 ---
 name: Docker Image Build
 
-'on':
-  push:
+'on': push
 
 jobs:
   build_image:
