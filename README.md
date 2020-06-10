@@ -95,8 +95,9 @@ You need to add a user with the following policies. Be sure to change `your_buck
 
 ## Extra environmnet
 
-- `EXTRA` - Default not set. Set extra parameters
-
+- `S3_PATH` - Default value is `mongodb`. Example `s3://your_bucket/mongodb/`
+- `EXTRA` - Default not set. Set extra parameters that are passed to mongorestore
+- `BACKUP_PATH` - Local path inside `/backup` where the backups are located. Useful for tar files with some directory structure
 
 ## License
 
