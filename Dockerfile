@@ -1,4 +1,4 @@
-FROM alpine:3.13.3
+FROM alpine:3.13.5
 
 LABEL maintainer "Atlas Cloud Devs <atlas@kws1.com>"
 
